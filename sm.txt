@@ -1,0 +1,19 @@
+---
+- name: demo playbook
+  hosts: webservers
+  tasks:
+  - name: sample file
+    file:
+      path: /root/.ansible/playbooks/demo.txt
+      owner: root
+      group: root
+      mode: 0644
+      state: touch
+  - name: install apache
+    apt:
+      name: httpd
+      state: latest
+  - name: start apache service
+    service:
+      name: httpd
+      state: started
