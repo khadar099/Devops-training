@@ -61,19 +61,16 @@ ppa:ansible/ansible: This is the specific PPA you're adding. It tells your syste
 
 sudo apt install ansible: This installs Ansible from the PPA you just added. This will pull the latest stable version of Ansible and its dependencies from the repository.
 
-What it does:
 
-Installs Ansible on your system, making it ready for use in automating tasks and managing remote systems.
-     - **For CentOS/RHEL:**
-       ```bash
+**For CentOS/RHEL:**
        sudo yum install ansible
-       ```
 
-   - Verify the installation:
-     ```bash
+**Verify the installation:**
      ansible --version
-     ```
-## ssh-copy-id -f "-o IdentityFile <PATH TO PEM FILE>" ubuntu@<INSTANCE-PUBLIC-IP>
+     
+****Passwordless authentication*****
+
+ssh-copy-id -f "-o IdentityFile <PATH TO PEM FILE>" ubuntu@<INSTANCE-PUBLIC-IP>
 
 This command is used to copy your SSH public key to a remote server (in this case, an EC2 instance) so that you can log in without needing to enter a password each time (via SSH key-based authentication).
 
