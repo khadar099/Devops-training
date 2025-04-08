@@ -36,6 +36,7 @@ It installs newer versions of installed packages.
 The -y flag automatically answers "yes" to any prompts, meaning you won’t have to manually confirm the upgrade of each package.
 
 **2. sudo apt install software-properties-common python3 python3-pip**
+
 sudo apt install: This installs the listed packages using apt, the package manager for Ubuntu.
 
 Packages being installed:
