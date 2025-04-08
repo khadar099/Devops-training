@@ -48,6 +48,7 @@ python3: This installs Python 3, which is a prerequisite for running Ansible (si
 python3-pip: This installs pip, the Python package installer for Python 3. pip allows you to install Python libraries or modules from the Python Package Index (PyPI). While it’s not strictly required for Ansible, it might be useful if you plan on installing additional Python packages for automation.
 
 **3. sudo apt-add-repository --yes --update ppa:ansible/ansible**
+
 sudo apt-add-repository: This command adds a new software repository to your system. In this case, you're adding a PPA (Personal Package Archive) for Ansible, which is a repository maintained by the Ansible team to provide the latest stable version of Ansible.
 
 --yes: This flag automatically confirms the addition of the repository without asking for user confirmation. It’s useful for automating the process in scripts.
@@ -57,6 +58,7 @@ sudo apt-add-repository: This command adds a new software repository to your sys
 ppa:ansible/ansible: This is the specific PPA you're adding. It tells your system to pull the latest version of Ansible from the official Ansible repository maintained by the Ansible team.
 
 **4. sudo apt install ansible**
+
 sudo apt install ansible: This installs Ansible from the PPA you just added. This will pull the latest stable version of Ansible and its dependencies from the repository.
 
 What it does:
