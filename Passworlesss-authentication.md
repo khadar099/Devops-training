@@ -47,7 +47,10 @@ If the sshd binary is installed but the service is not running, try manually sta
 ## Using Password
 
 Go to the file /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
+
 Update PasswordAuthentication yes
+
 Restart SSH -> sudo systemctl restart ssh
+
 
 sudo /usr/sbin/sshd
