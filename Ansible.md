@@ -73,6 +73,54 @@ Installs Ansible on your system, making it ready for use in automating tasks and
      ```bash
      ansible --version
      ```
+## ssh-copy-id -f "-o IdentityFile <PATH TO PEM FILE>" ubuntu@<INSTANCE-PUBLIC-IP>
+
+This command is used to copy your SSH public key to a remote server (in this case, an EC2 instance) so that you can log in without needing to enter a password each time (via SSH key-based authentication).
+
+## Here’s what each part of the command means:
+
+1. ssh-copy-id: Copies your public SSH key to the remote server's authorized_keys file.
+
+2. -f: Forces the copy of the SSH key even if the key already exists.
+
+3. -o IdentityFile <PATH TO PEM FILE>: Specifies the private key (.pem file) to authenticate with the server.
+
+4. ubuntu@<INSTANCE-PUBLIC-IP>: Specifies the remote server you are connecting to, in this case, an EC2 instance with the ubuntu username and its public IP address.
+
+## Generating ssh key 
+
+Example Key Lengths:
+1024 bits: Insecure for most modern purposes (not recommended).
+2048 bits: Secure for most use cases (recommended).
+4096 bits: Very secure, but might be slower in performance.
+
+
+ssh-keygen -t rsa -b 2048 (recommended)
+This command is used to generate an SSH key pair on your machine, which you can use for passwordless SSH authentication. 
+
+Here’s what each part means:
+
+**1. ssh-keygen**
+This is the command that starts the SSH key generation process. It's used to create a public and private key pair for SSH-based authentication.
+
+The SSH keys are typically stored in the ~/.ssh/ directory on your machine. The private key stays on your local machine, while the public key is copied to the remote server (in the ~/.ssh/authorized_keys file) to allow passwordless login.
+
+**2. -t rsa**
+-t specifies the type of key you want to generate.
+
+rsa is a widely used encryption algorithm for generating SSH keys. It stands for Rivest-Shamir-Adleman, which is the name of the cryptographers who created the algorithm.
+
+RSA is one of the most common key types, though there are others like DSA and ECDSA. RSA is generally a safe and widely supported choice.
+
+**3. -b 2048**
+-b specifies the number of bits in the key. It defines the key's length, which impacts both its security and performance.
+
+2048 means the key will be 2048 bits long. This is a commonly used key length and is generally considered secure for most purposes.
+
+A larger key (e.g., 4096 bits) would provide more security but might be slower to use because of the increased complexity.
+
+A smaller key (e.g., 1024 bits) is faster but less secure, and it’s not recommended anymore because it can be broken by modern computational power.
+
 
    - **Inventory File**:
      The inventory file is where you define the hosts (machines) that Ansible will manage.
