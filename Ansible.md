@@ -68,9 +68,9 @@ sudo apt install ansible: This installs Ansible from the PPA you just added. Thi
 **Verify the installation:**
      ansible --version
      
-****Passwordless authentication*****
+## Passwordless authentication
 
-ssh-copy-id -f "-o IdentityFile <PATH TO PEM FILE>" ubuntu@<INSTANCE-PUBLIC-IP>
+**ssh-copy-id -f "-o IdentityFile <PATH TO PEM FILE>" ubuntu@<INSTANCE-PUBLIC-IP>**
 
 This command is used to copy your SSH public key to a remote server (in this case, an EC2 instance) so that you can log in without needing to enter a password each time (via SSH key-based authentication).
 
