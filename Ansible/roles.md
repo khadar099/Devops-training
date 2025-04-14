@@ -1,4 +1,4 @@
-Sure! Here's a basic **Ansible role** that installs **Nginx** depending on the **OS family** (supports both Debian-based and RedHat-based systems like Ubuntu, Debian, CentOS, RHEL, etc.).
+**Ansible role** that installs **Nginx** depending on the **OS family** (supports both Debian-based and RedHat-based systems like Ubuntu, Debian, CentOS, RHEL, etc.).
 
 ---
 
