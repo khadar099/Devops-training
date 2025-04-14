@@ -111,6 +111,13 @@ galaxy_info:
 
 ---
 
+**Creating ansible role **
 
 ![image](https://github.com/user-attachments/assets/c18a241e-410f-47e5-8d70-0dce97c75e84)
+
+ubuntu@ip-172-31-38-60:~/nginx_install/tasks$ sudo main.yaml
+
+
+
+
 
