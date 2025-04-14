@@ -111,4 +111,6 @@ galaxy_info:
 
 ---
 
-Let me know if you want to add things like starting the service, enabling it, custom config, or support for other OSes!
+
+![image](https://github.com/user-attachments/assets/c18a241e-410f-47e5-8d70-0dce97c75e84)
+
