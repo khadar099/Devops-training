@@ -3,15 +3,15 @@
 ---
 
 ✅ 1. Create the Role Structure
+
 Use the ansible-galaxy command to scaffold the role:
 
-bash
-Copy
-Edit
 ansible-galaxy init nginx_install
+
 This will create a folder called nginx_install with the proper subdirectories like tasks/, defaults/, meta/, etc.
 
 ✅ 2. Edit the Role
+
 Replace the contents of nginx_install/tasks/main.yml with:
 
 ---
