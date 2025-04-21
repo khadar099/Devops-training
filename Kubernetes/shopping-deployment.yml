@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopping-app
+  labels:
+    app: shopping
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shopping
+  template:
+    metadata:
+      labels:
+        app: shopping
+    spec:
+      containers:
+      - name: shopping-container
+        image: khadar3099/shopping:v.77
+        ports:
+        - containerPort: 80
