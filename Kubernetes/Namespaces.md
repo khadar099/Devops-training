@@ -35,18 +35,15 @@ kube-node-lease – Manages node heartbeat leases (for scalability and performan
 **Creating a Namespace**
 
 apiVersion: v1
-
 kind: Namespace
-
 metadata:
-
   name: my-namespace
   
 **Apply it with:**
 
 kubectl apply -f namespace.yaml
 
-Or directly:
+**Or directly:**
 
 kubectl create namespace my-namespace
 
