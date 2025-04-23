@@ -63,9 +63,14 @@ spec:
 **You can also set the namespace in your kubectl commands:**
 
 kubectl get pods --namespace=my-namespace
-Or set a default for your context:
+
+**Set a default for your context:**
 
 kubectl config set-context --current --namespace=my-namespace
+
+kubectl config set-context --current --namespace=dev
+
+This command sets a default namespace for your current Kubernetes context, so that you don’t have to type -n dev in every kubectl command.
 
 **Example Scenario**
 
