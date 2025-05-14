@@ -1,0 +1,27 @@
+---
+- name: Install Nginx on Ubuntu systems only
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Gather OS information
+      ansible.builtin.setup:
+        gather_subset:
+          - "os_family"
+          - "distribution"
+
+    - name: Check if the OS is Ubuntu
+      ansible.builtin.set_fact:
+        is_ubuntu: "{{ ansible_distribution == 'Ubuntu' }}"
+
+    - name: Install Nginx on Ubuntu
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      when: is_ubuntu
+
+    - name: Print message if not Ubuntu
+      ansible.builtin.debug:
+        msg: "Skipping Nginx install: OS is not Ubuntu ({{ ansible_distribution }})"
+      when: not is_ubuntu
