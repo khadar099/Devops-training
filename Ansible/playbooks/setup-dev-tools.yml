@@ -1,0 +1,38 @@
+---
+- name: Install Java and Maven on Ubuntu
+  hosts: ubuntu
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install OpenJDK 11
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Install Maven
+      apt:
+        name: maven
+        state: present
+
+- name: Install Node.js on Amazon Linux
+  hosts: amazonlinux
+  become: yes
+  tasks:
+    - name: Install Node.js from Amazon Linux Extras
+      shell: |
+        amazon-linux-extras enable nodejs18
+        yum clean metadata
+        yum install -y nodejs
+      args:
+        executable: /bin/bash
+
+    - name: Verify Node.js installation
+      command: node -v
+      register: node_version
+
+    - name: Show installed Node.js version
+      debug:
+        msg: "Installed Node.js version: {{ node_version.stdout }}"
