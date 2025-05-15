@@ -1,66 +1,76 @@
 ---
-- name: Install Docker on Ubuntu and Amazon Linux
-  hosts: all
-  become: true
-  gather_facts: true
+- name: Install Docker on Ubuntu and Amazon Linux 2 servers
+  hosts: webservers
+  become: yes
+  vars:
+    docker_ubuntu_packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    docker_ubuntu_repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] }} stable"
+    docker_amazonlinux_repo_url: "https://download.docker.com/linux/centos/docker-ce.repo"
 
   tasks:
-
-    - name: Install dependencies (Ubuntu)
+    - name: Install prerequisite packages on Ubuntu
       apt:
-        name: "{{ item }}"
+        name: "{{ docker_ubuntu_packages }}"
         state: present
         update_cache: yes
-      loop:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
       when: ansible_facts['os_family'] == "Debian"
 
-    - name: Add Docker GPG key (Ubuntu)
+    - name: Add Docker GPG key on Ubuntu
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
       when: ansible_facts['os_family'] == "Debian"
 
-    - name: Add Docker repository (Ubuntu)
+    - name: Add Docker repo on Ubuntu
       apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        repo: "{{ docker_ubuntu_repo }}"
         state: present
       when: ansible_facts['os_family'] == "Debian"
 
-    - name: Install Docker (Ubuntu)
+    - name: Install Docker engine on Ubuntu
       apt:
         name: docker-ce
-        state: present
+        state: latest
         update_cache: yes
       when: ansible_facts['os_family'] == "Debian"
 
-    - name: Install dependencies (Amazon Linux)
+    - name: Install prerequisite packages on Amazon Linux 2
       yum:
-        name: "{{ item }}"
+        name:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
         state: present
-      loop:
-        - yum-utils
-        - device-mapper-persistent-data
-        - lvm2
-      when: ansible_facts['os_family'] == "RedHat" and 'Amazon' in ansible_facts['distribution']
+      when:
+        - ansible_facts['distribution'] == "Amazon"
+        - ansible_facts['distribution_major_version'] == "2"
 
-    - name: Add Docker repo (Amazon Linux)
-      get_url:
-        url: https://download.docker.com/linux/centos/docker-ce.repo
-        dest: /etc/yum.repos.d/docker-ce.repo
-      when: ansible_facts['os_family'] == "RedHat" and 'Amazon' in ansible_facts['distribution']
+    - name: Add Docker repo on Amazon Linux 2
+      command: yum-config-manager --add-repo {{ docker_amazonlinux_repo_url }}
+      args:
+        creates: /etc/yum.repos.d/docker-ce.repo
+      when:
+        - ansible_facts['distribution'] == "Amazon"
+        - ansible_facts['distribution_major_version'] == "2"
 
-    - name: Install Docker (Amazon Linux)
+    - name: Install Docker engine on Amazon Linux 2
       yum:
-        name: docker-ce
-        state: present
-      when: ansible_facts['os_family'] == "RedHat" and 'Amazon' in ansible_facts['distribution']
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: latest
+      when:
+        - ansible_facts['distribution'] == "Amazon"
+        - ansible_facts['distribution_major_version'] == "2"
 
     - name: Start and enable Docker service
       service:
         name: docker
         state: started
-        enabled: true
+        enabled: yes
