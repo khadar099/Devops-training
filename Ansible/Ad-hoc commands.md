@@ -67,9 +67,7 @@ ansible db1 -m copy \
 Copies a local file into place on host db1.
 
 5. Manage a service
-bash
-Copy
-Edit
+
 ansible webservers -m service \
   -a "name=nginx state=restarted" \
   -b
@@ -81,7 +79,29 @@ Quick one-off checks or fixes	Complex, repeatable, version-controlled tasks
 No need for idempotency guarantees beyond module behavior	Full idempotency, complex workflows, roles
 Rapid troubleshooting (e.g. ping, uptime)	Complete environment provisioning, deployments
 
-Tips:
+
+
+✅ For Ubuntu/Debian systems:
+bash
+Copy
+Edit
+ansible all -i inventory.ini -m apt -a "name=maven state=present update_cache=true" -b
+name=maven → package name
+
+state=present → ensures it's installed
+
+update_cache=true → updates apt cache before installing
+
+-b → uses sudo (become)
+
+ **RHEL/CentOS systems:**
+
+ansible all -i inventory.ini -m yum -a "name=maven state=present" -b
+
+🔍 To verify Maven installation:
+You can use:
+
+ansible all -i inventory.ini -m shell -a "mvn -version"
 
 Combine patterns:
 
