@@ -1,0 +1,7 @@
+---
+- name: Basic playbook to print hello world
+  hosts: localhost
+  tasks:
+   - name: print a message
+     debug:
+      msg: "hello world...!"
