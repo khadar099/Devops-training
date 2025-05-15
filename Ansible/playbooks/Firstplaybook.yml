@@ -5,3 +5,20 @@
    - name: print a message
      debug:
       msg: "hello world...!"
+
+
+
+
+
+
+
+
+
+#This playbook has three sections:
+#name, hosts and tasks
+
+# This is a YAML delimiter that indicates the start of the YAML document
+
+#The name section is a descriptive name for the playbook (optional)
+#The hosts section specifies the target hosts where the playbook will run
+#The tasks section contains the actual tasks to be executed
