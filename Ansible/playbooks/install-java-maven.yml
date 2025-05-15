@@ -1,0 +1,22 @@
+---
+- name: Install Java and Maven on Ubuntu and Amazon Linux servers
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Java and Maven on Ubuntu
+      apt:
+        name:
+          - openjdk-11-jdk
+          - maven
+        state: present
+        update_cache: yes
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Install Java and Maven on Amazon Linux
+      yum:
+        name:
+          - java-11-amazon-corretto-devel
+          - maven
+        state: present
+      when: ansible_facts['os_family'] == 'RedHat'
