@@ -69,7 +69,13 @@
         - ansible_facts['distribution'] == "Amazon"
         - ansible_facts['distribution_major_version'] == "2"
 
-    - name: Start and enable Docker service
+    - name: Reload systemd to recognize new services on Amazon Linux 2
+      command: systemctl daemon-reload
+      when:
+        - ansible_facts['distribution'] == "Amazon"
+        - ansible_facts['distribution_major_version'] == "2"
+
+    - name: Start and enable Docker service on all supported OS
       service:
         name: docker
         state: started
