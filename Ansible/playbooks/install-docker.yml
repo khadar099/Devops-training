@@ -1,0 +1,66 @@
+---
+- name: Install Docker on Ubuntu and Amazon Linux
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+
+    - name: Install dependencies (Ubuntu)
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Add Docker GPG key (Ubuntu)
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Add Docker repository (Ubuntu)
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install Docker (Ubuntu)
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install dependencies (Amazon Linux)
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+      when: ansible_facts['os_family'] == "RedHat" and 'Amazon' in ansible_facts['distribution']
+
+    - name: Add Docker repo (Amazon Linux)
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+      when: ansible_facts['os_family'] == "RedHat" and 'Amazon' in ansible_facts['distribution']
+
+    - name: Install Docker (Amazon Linux)
+      yum:
+        name: docker-ce
+        state: present
+      when: ansible_facts['os_family'] == "RedHat" and 'Amazon' in ansible_facts['distribution']
+
+    - name: Start and enable Docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
