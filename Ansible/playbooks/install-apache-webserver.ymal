@@ -1,0 +1,35 @@
+---
+name: Install Apache web server
+  hosts: webservers
+  become: yes
+  tasks:
+name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+
+name: Start Apache
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+
+
+
+
+
+#name: Install and start Apache: This is the name of the playbook (optional)
+#hosts: webservers: hosts that the playbook will run on, e.g. host group named "webservers"
+#become: yes: This tells Ansible to use sudo to execute the tasks
+#tasks:: This is the section where the tasks to be performed are defined
+#name: Install Apache: This is the name of the task (optional)
+#yum:: This is the module used to install packages on the target host.
+#name: httpd: This specifies the name of the package to be installed
+#state: present: This specifies that the package should be installed if it is not already present
+#name: Start Apache: This is another task to start the Apache service.
+#service:: This is the module used to manage services on the target host
+#name: httpd: This specifies the name of the service to be managed.
+#state: started: This specifies that the service should be started
+#enabled: true: makes sure that the httpd service is set to start automatically when the system boots up
