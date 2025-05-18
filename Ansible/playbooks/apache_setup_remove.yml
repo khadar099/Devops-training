@@ -28,8 +28,4 @@
         path: /etc/apache2/apache2.conf
         state: absent
 
-    - name: Remove entire Apache directory (optional and aggressive)
-      file:
-        path: /etc/apache2
-        state: absent
-        recurse: yes
+  
