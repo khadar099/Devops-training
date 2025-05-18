@@ -1,0 +1,52 @@
+---
+# This playbook installs and configures Apache (apache2) on Ubuntu servers
+
+- name: Install and configure Apache on Ubuntu
+  hosts: webservers        # Target group of hosts defined in your inventory file
+  become: yes              # Run all tasks with elevated privileges (sudo)
+
+  # Variables used throughout the playbook
+  vars:
+    apache_listen_port: 80                 # Port Apache will listen on
+    apache_server_admin: webmaster@localhost  # Server admin contact shown on error pages
+
+  tasks:
+    # Task 1: Install Apache web server package
+    - name: Install Apache
+      apt:
+        name: apache2                      # The name of the package to install
+        state: absent                    # Ensure it's installed (not removed)
+        update_cache: yes                  # Run apt update before installing
+
+    # Task 2: Deploy the Apache configuration file using a Jinja2 template
+    - name: Deploy Apache configuration
+      template:
+        src: apache2.conf.j2               # Source Jinja2 template file (from templates/)
+        dest: apache2.conf                 # Destination on the remote host
+        owner: root                        # Set ownership to root
+        group: root
+        mode: '0644'                       # Readable by everyone, writable by root
+      notify: Restart Apache               # Triggers handler to restart Apache if config changes
+
+    # Task 3: Deploy a custom index.html file to the website root directory
+    - name: Copy custom index.html
+      copy:
+        src: index.html                    # Source file (from files/ directory)
+        dest: /var/www/html/index.html    # Destination file path on remote server
+        owner: www-data                    # Set appropriate web server ownership
+        group: www-data
+        mode: '0644'                       # File permission: readable by all, writable by owner
+
+    # Task 4: Ensure Apache service is started and enabled on boot
+    - name: Ensure Apache is running and enabled
+      service:
+        name: apache2                      # The service name for Apache on Ubuntu
+        state: started                     # Ensure it's currently running
+        enabled: yes                       # Ensure it starts on boot
+
+  handlers:
+    # Handler: Restart Apache service when notified (e.g., config file changed)
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
