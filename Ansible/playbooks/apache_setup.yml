@@ -22,7 +22,7 @@
     - name: Deploy Apache configuration
       template:
         src: apache2.conf.j2               # Source Jinja2 template file (from templates/)
-        dest: /etc/apache2/apache2.conf   # Destination on the remote host
+        dest: apache2.conf                 # Destination on the remote host
         owner: root                        # Set ownership to root
         group: root
         mode: '0644'                       # Readable by everyone, writable by root
