@@ -1,0 +1,193 @@
+
+🔹 Step 1: Create variables.tf
+Create a new file named variables.tf in the same directory:
+
+hcl
+Copy
+Edit
+variable "ami_id" {
+  description = "AMI ID for the EC2 instance"
+  type        = string
+}
+
+variable "key_name" {
+  description = "Key pair name to connect to EC2"
+  type        = string
+}
+🔹 Step 2: Create terraform.tfvars (or use CLI)
+Create a file named terraform.tfvars to store your actual values:
+
+hcl
+Copy
+Edit
+ami_id   = "ami-0e35ddab05955cf57"     # Replace if needed
+key_name = "key-pair2"                 # Replace with your actual key
+This file is automatically picked up when you run terraform apply.
+
+🔹 Step 3: Update main.tf to use variables
+Replace the hardcoded values in your main.tf:
+
+hcl
+Copy
+Edit
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "example" {
+  count         = 5
+  ami           = var.ami_id
+  instance_type = "t2.micro"
+  key_name      = var.key_name
+
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+
+  tags = {
+    Name = tolist(["app-server", "db-server", "cache-server", "api-server", "frontend-server"])[count.index]
+  }
+}
+
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+✅ Optional: Use Dynamic AMI Lookup (No ami_id variable needed)
+If you prefer not to specify an AMI ID at all, use this instead:
+
+Replace the ami = var.ami_id line with:
+hcl
+Copy
+Edit
+ami = data.aws_ami.amazon_linux.id
+And add this block to main.tf:
+hcl
+Copy
+Edit
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+Then remove ami_id from variables.tf and terraform.tfvars.
+
+📂 Final File Structure
+css
+Copy
+Edit
+.
+├── main.tf
+├── variables.tf
+├── terraform.tfvars
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+✅ Step-by-Step Guide
+Step 1: Use Variables for AMI ID and Key Pair Name
+1. Create a variables.tf file (if not already present):
+
+hcl
+Copy
+Edit
+variable "ami_id" {
+  description = "AMI ID to use for the EC2 instance"
+  type        = string
+}
+
+variable "key_name" {
+  description = "Key pair name to access the EC2 instance"
+  type        = string
+}
+Step 2: Reference Variables in main.tf
+Update your main.tf to use the variables:
+
+hcl
+Copy
+Edit
+resource "aws_instance" "example" {
+  ami           = var.ami_id
+  instance_type = "t2.micro"
+  key_name      = var.key_name
+
+  tags = {
+    Name = "MyEC2Instance"
+  }
+}
+Step 3: Pass Variable Values
+You have multiple options here:
+
+Option A: Use terraform.tfvars
+Create a file called terraform.tfvars:
+
+
+ami_id   = "ami-0123456789abcdef0"
+key_name = "my-keypair-name"
+Terraform will automatically pick up this file when you run terraform apply.
+
+Option B: Pass Values via CLI
+
+terraform apply -var="ami_id=ami-0123456789abcdef0" -var="key_name=my-keypair-name"
+Step 4: Optional – Dynamically Fetch Latest AMI (for Amazon Linux)
+If you want to dynamically fetch the latest AMI (e.g., Amazon Linux 2):
+
+hcl
+Copy
+Edit
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+}
+Then replace ami = var.ami_id in main.tf with:
+
+hcl
+Copy
+Edit
+ami = data.aws_ami.amazon_linux.id
+This way, you don't even need to provide the AMI ID manually.
+
+✅ Final Structure
+cpp
+Copy
+Edit
+.
+├── main.tf
+├── variables.tf
+├── terraform.tfvars (optional)
