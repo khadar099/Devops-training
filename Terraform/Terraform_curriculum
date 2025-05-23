@@ -1,0 +1,89 @@
+**Terraform Training Curriculum**
+
+Module 1: Introduction to IaC and Terraform
+What is Infrastructure as Code (IaC)?
+
+Benefits of IaC and comparison with traditional provisioning
+
+Introduction to Terraform and use cases
+
+Terraform vs CloudFormation/ARM/Ansible
+
+Module 2: Terraform Basics
+Terraform installation and CLI usage
+
+Providers (AWS, Azure, GCP, etc.)
+
+Terraform configuration files: .tf and .tfvars
+
+Resources and data sources
+
+terraform init, plan, apply, destroy
+
+Module 3: State Management
+What is terraform.tfstate?
+
+Remote state (S3 + DynamoDB locking for AWS)
+
+State file security best practices
+
+Module 4: Variables and Outputs
+Input variables
+
+Output values
+
+Variable types and default values
+
+Sensitive variables
+
+Module 5: Modules
+Creating reusable modules
+
+Using public modules from the Terraform Registry
+
+Organizing code with root and child modules
+
+Module 6: Provisioners and Meta-Arguments
+Using local-exec and remote-exec
+
+depends_on, count, for_each, lifecycle
+
+Module 7: Workspaces and Environments
+Using Terraform workspaces
+
+Managing multiple environments (dev, stage, prod)
+
+Module 8: Terraform Cloud and Terraform Enterprise (Optional)
+Introduction to Terraform Cloud
+
+Remote runs and version control integration
+
+Module 9: Terraform with Real Cloud Providers
+Hands-on with AWS:
+
+Launch EC2, S3, RDS, IAM
+
+VPC, subnets, security groups
+
+(Optional) Azure or GCP examples
+
+Module 10: Best Practices and Advanced Topics
+Code structure and file naming conventions
+
+DRY principles and modular design
+
+Managing secrets (Vault, SOPS, environment variables)
+
+Terraform linters and CI/CD integration (e.g., with GitHub Actions)
+
+🧪 Labs and Projects
+Include hands-on projects like:
+
+Provisioning a 3-tier web app (EC2 + ALB + RDS)
+
+VPC creation with public and private subnets
+
+Using modules for reusable infrastructure
+
+Integrating with Jenkins or GitHub Actions for Terraform automation
+
