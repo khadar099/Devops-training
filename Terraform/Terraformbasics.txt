@@ -1,0 +1,179 @@
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "example" {
+  ami           = "ami-0e35ddab05955cf57" # Amazon Linux 2023 AMI for ap-south-1
+  instance_type = "t2.micro"
+  key_name      = "key-pair2"
+
+  tags = {
+    Name = "Terraform-EC2"
+  }
+}
+
+
+Create 5 ec2 instances with security group
+------------------------------------------
+
+provider "aws" {
+  region = "ap-south-1"  # Change as needed
+}
+
+resource "aws_instance" "example" {
+  count         = 5
+  ami           = "ami-0e35ddab05955cf57"  # Amazon Linux 2 AMI (for us-east-1)
+  instance_type = "t2.micro"
+  key_name      = "key-pair2"         # Replace with your key pair name
+
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+
+  tags = {
+    Name = "webserver1"
+  }
+}
+
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Restrict to your IP for production
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+Now if you want to  give webserver-1, webserver-2 names to ec2 instances
+-------------------------------------------------------------------------
+in the tages name you will add count + index
+
+provider "aws" {
+  region = "ap-south-1"  # Change as needed
+}
+
+resource "aws_instance" "example" {
+  count         = 5
+  ami           = "ami-0e35ddab05955cf57"  # Amazon Linux 2 AMI (for us-east-1)
+  instance_type = "t2.micro"
+  key_name      = "key-pair2"         # Replace with your key pair name
+
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+
+  tags = {
+    Name = "webserver-${count.index + 1}"
+  }
+}
+
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Restrict to your IP for production
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+Now if you want to  give different names to ec2 instances
+-------------------------------------------------------------------------
+
+provider "aws" {
+  region = "ap-south-1"  # Change as needed
+}
+
+resource "aws_instance" "example" {
+  count         = 5
+  ami           = "ami-0e35ddab05955cf57"  # Amazon Linux 2 AMI (for us-east-1)
+  instance_type = "t2.micro"
+  key_name      = "key-pair2"         # Replace with your key pair name
+
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+
+  tags = {
+    Name = tolist(["app-server", "db-server", "cache-server", "api-server", "frontend-server"])[count.index]
+  }
+}
+
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Restrict to your IP for production
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+terraform destroy will destroy everything
+
+now if you want to delete only two instances
+--------------------------------------------
+just remove that from the tolist like below
+also you can use 
+to delete only db-server and api-server, run:
+terraform destroy -target=aws_instance.db_server
+terraform destroy -target=aws_instance.api_server
+
+
+provider "aws" {
+  region = "ap-south-1"  # Change as needed
+}
+
+resource "aws_instance" "example" {
+  count         = 5
+  ami           = "ami-0e35ddab05955cf57"  # Amazon Linux 2 AMI (for us-east-1)
+  instance_type = "t2.micro"
+  key_name      = "key-pair2"         # Replace with your key pair name
+
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+
+  tags = {
+    Name = tolist(["app-server", "db-server", "frontend-server"])[count.index]
+  }
+}
+
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Restrict to your IP for production
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
