@@ -1,5 +1,5 @@
 variable "bucket_name" {
-  description = "The name of the S3 bucket"
+  description = "The base name of the S3 bucket (a unique suffix will be added)"
   type        = string
-  default     = "my-unique-s3-bucket-name-12345"
+  default     = "my-unique-s3-bucket"
 }
