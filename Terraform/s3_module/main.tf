@@ -1,35 +1,40 @@
-# Specify the AWS provider and the region to deploy resources
+# Set the AWS provider and region
 provider "aws" {
-  region = "us-east-1"  # AWS region to deploy the resources (e.g., Virginia). You can change this as needed.
+  region = "ap-south-1"  # Use the region of your choice
 }
 
 # Create an S3 bucket
 resource "aws_s3_bucket" "example_bucket" {
-  bucket = "my-unique-s3-bucket-name-12345"  # Name of the S3 bucket. Must be globally unique across AWS.
-  acl    = "private"  # Access control list - 'private' means only the owner has access.
+  bucket = "my-unique-s3-bucket-name-12345"  # Must be globally unique
 
   tags = {
-    Name        = "MyS3Bucket"  # Tag for easier identification in AWS console
-    Environment = "Dev"         # Indicates this bucket is used in the Development environment
+    Name        = "MyS3Bucket"
+    Environment = "Dev"
   }
 }
 
-# Enable versioning on the created S3 bucket
+# Set the bucket ACL using a separate resource (as recommended)
+resource "aws_s3_bucket_acl" "bucket_acl" {
+  bucket = aws_s3_bucket.example_bucket.id
+  acl    = "private"  # Grants private access (only the bucket owner has access)
+}
+
+# Enable versioning on the S3 bucket
 resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = aws_s3_bucket.example_bucket.id  # Reference to the bucket created above
+  bucket = aws_s3_bucket.example_bucket.id
 
   versioning_configuration {
-    status = "Enabled"  # Enables versioning - keeps multiple versions of an object in the same bucket
+    status = "Enabled"
   }
 }
 
-# Enable server-side encryption for the S3 bucket
+# Enable server-side encryption using AES256
 resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
-  bucket = aws_s3_bucket.example_bucket.id  # Reference to the bucket created above
+  bucket = aws_s3_bucket.example_bucket.id
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"  # Use AES256 encryption for objects stored in the bucket
+      sse_algorithm = "AES256"
     }
   }
 }
