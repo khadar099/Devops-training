@@ -1,11 +1,16 @@
 # Set the AWS provider and region
 provider "aws" {
-  region = "ap-south-1"  # Use the region of your choice
+  region = "ap-south-1"
 }
 
-# Create an S3 bucket
+# Generate a random ID suffix to ensure bucket name uniqueness
+resource "random_id" "bucket_suffix" {
+  byte_length = 4
+}
+
+# Create an S3 bucket with a unique name
 resource "aws_s3_bucket" "example_bucket" {
-  bucket = "my-unique-s3-bucket-name-12345"  # Must be globally unique
+  bucket = "${var.bucket_name}-${random_id.bucket_suffix.hex}"
 
   tags = {
     Name        = "MyS3Bucket"
@@ -13,13 +18,13 @@ resource "aws_s3_bucket" "example_bucket" {
   }
 }
 
-# Set the bucket ACL using a separate resource (as recommended)
+# Set the bucket ACL
 resource "aws_s3_bucket_acl" "bucket_acl" {
   bucket = aws_s3_bucket.example_bucket.id
-  acl    = "private"  # Grants private access (only the bucket owner has access)
+  acl    = "private"
 }
 
-# Enable versioning on the S3 bucket
+# Enable versioning
 resource "aws_s3_bucket_versioning" "versioning" {
   bucket = aws_s3_bucket.example_bucket.id
 
@@ -28,7 +33,7 @@ resource "aws_s3_bucket_versioning" "versioning" {
   }
 }
 
-# Enable server-side encryption using AES256
+# Enable server-side encryption
 resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
   bucket = aws_s3_bucket.example_bucket.id
 
