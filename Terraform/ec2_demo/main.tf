@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1" # Change as needed
+  region = "us-east-1"
 }
 
 # Create a security group
@@ -11,14 +11,14 @@ resource "aws_security_group" "instance_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # SSH access - adjust in production
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # HTTP access
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -33,17 +33,17 @@ resource "aws_security_group" "instance_sg" {
   }
 }
 
-# List of instance names
+# Instance name list
 locals {
   instance_names = ["webserver", "devserver", "sitserver"]
 }
 
-# Create EC2 instances
+# Launch EC2 instances
 resource "aws_instance" "ec2_instances" {
   count         = length(local.instance_names)
   ami           = "ami-0e35ddab05955cf57"
   instance_type = "t2.micro"
-  key_name      = "key-pair2" # Replace with your actual key pair name
+  key_name      = "key-pair2"  # Replace with your actual key name
 
   vpc_security_group_ids = [aws_security_group.instance_sg.id]
 
