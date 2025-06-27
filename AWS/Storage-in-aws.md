@@ -13,13 +13,20 @@ Global availability via multiple regions and edge locations
 
 🔹 Main AWS Storage Types (With Use Cases)
 Category	AWS Service	Use Case
+
 Object Storage	Amazon S3	Backup, static websites, media, big data
+
 Block Storage	Amazon EBS	Boot volumes, databases, file systems
+
 File Storage	Amazon EFS	Shared storage for Linux apps
+
 Archive Storage	Amazon S3 Glacier	Long-term archival & compliance
+
 Hybrid Storage	AWS Storage Gateway	On-premise + AWS cloud integration
+
 Backup	AWS Backup	Centralized backup across services
 Transfer	AWS Snowball, AWS DataSync	Large data migrations
+
 
 ✅ 1. Amazon S3 (Simple Storage Service) — Object Storage
 ➤ Description:
@@ -33,12 +40,12 @@ Scales automatically.
 
 ➤ Storage Classes:
 Class	Use Case
-S3 Standard	Frequently accessed data
-S3 Intelligent-Tiering	Unpredictable access patterns
-S3 Standard-IA	Infrequent access
-S3 One Zone-IA	Infrequent access, 1 zone only
-S3 Glacier	Archival (minutes to hours)
-S3 Glacier Deep Archive	Long-term archive (hours)
+S3 Standard	               -   Frequently accessed data
+S3 Intelligent-Tiering	   -   Unpredictable access patterns
+S3 Standard-IA	           -   Infrequent access
+S3 One Zone-IA	           -   Infrequent access, 1 zone only
+S3 Glacier	               -   Archival (minutes to hours)
+S3 Glacier                 -   Deep Archive	Long-term archive (hours)
 
 ➤ Example:
 Store images for a website:
