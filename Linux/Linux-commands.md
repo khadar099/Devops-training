@@ -121,3 +121,163 @@ sudo systemctl start apache2
 
 Now your server is running Apache and can serve websites.
 
+
+
+📁** 1. File and Directory Commands**
+
+Command	Description	Example
+
+pwd	Print Working Directory (shows your current location)	pwd → /home/khadar/
+
+ls	List files in a directory	ls -l → long format list
+
+cd	Change directory	cd /etc → move to /etc folder
+
+mkdir	Make a new directory	mkdir myfolder
+
+rmdir	Remove an empty directory	rmdir myfolder
+
+rm	Remove files or directories	rm file.txt, rm -r folder/
+
+touch	Create a new empty file	touch hello.txt
+
+cp	Copy files or directories	cp a.txt b.txt, cp -r dir1 dir2
+
+mv	Move or rename files	mv file.txt /tmp/ or mv a.txt b.txt
+
+cat	Display content of a file	cat notes.txt
+
+more / less	View large files one screen at a time	less log.txt
+
+find	Find files/folders	find / -name "*.log"
+
+🔐 2. Permissions & Ownership
+
+Command	Description	Example
+
+chmod	Change file permissions	chmod 755 script.sh
+
+chown	Change file owner	chown user:user file.txt
+
+ls -l	View permissions and ownership	shows -rwxr-xr-- and owners
+
+**👥 3. User Management**
+
+Command	Description	Example
+
+whoami	Show current user	whoami → khadar
+
+adduser	Add a new user	sudo adduser john
+
+passwd	Change password	passwd john
+
+usermod	Modify user (e.g., add to group)	usermod -aG sudo john
+
+deluser	Delete user	deluser john
+
+groups	List groups of a user	groups john
+
+💻 4. Process & System Monitoring
+
+Command	Description	Example
+
+ps	Show running processes	ps aux
+
+top	Real-time process monitor	press q to quit
+
+htop	Enhanced top (needs install)	sudo apt install htop
+
+kill	Kill process by PID	kill 1234
+
+uptime	How long system has been running	uptime
+
+df -h	Disk space usage (human readable)	df -h
+
+free -m	Memory usage	free -m
+
+
+📦 5. Package Management
+
+👉 Depends on distribution:
+
+Ubuntu/Debian (apt)
+
+Command	Description	Example
+
+apt update	Refresh package list	sudo apt update
+
+apt upgrade	Upgrade all packages	sudo apt upgrade
+
+apt install	Install package	sudo apt install nginx
+
+apt remove	Remove package	sudo apt remove nginx
+
+
+RHEL/CentOS (yum or dnf)
+
+Command	Description	Example
+
+yum install	Install package	sudo yum install httpd
+
+yum remove	Remove package	sudo yum remove httpd
+
+⚙️ 6. System Services
+
+Command	Description	Example
+
+systemctl status	Check service status	systemctl status ssh
+
+systemctl start	Start service	sudo systemctl start nginx
+
+systemctl stop	Stop service	sudo systemctl stop nginx
+
+systemctl restart	Restart service	sudo systemctl restart nginx
+
+systemctl enable	Auto-start on boot	sudo systemctl enable nginx
+
+🌐 7. Networking
+
+Command	Description	Example
+
+ip a	Show IP addresses	ip a
+
+ping	Check network connection	ping google.com
+
+netstat	View network connections	netstat -tulnp
+
+curl	Fetch URL contents	curl https://example.com
+
+**🗂 8. Archiving & Compression**
+
+Command	Description	Example
+
+tar	Archive/extract files	tar -czvf archive.tar.gz folder/
+
+unzip	Extract zip files	unzip file.zip
+
+gzip / gunzip	Compress/Decompress	gzip file.txt
+
+
+**⏰ 9. Scheduling Jobs**
+
+Command	Description	Example
+
+crontab -e	Edit cron jobs	0 3 * * * /home/user/backup.sh (daily at 3AM)
+
+at	Run a command once at a time	`echo "uptime"
+
+**📝 10. Basic Shell Scripting**
+
+
+#!/bin/bash
+
+echo "Hello, $USER!"
+
+date
+
+Save as hello.sh and run:
+
+chmod +x hello.sh
+
+./hello.sh
+
