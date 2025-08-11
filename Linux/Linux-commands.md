@@ -1,4 +1,5 @@
 **1. Linux File System Structure**
+
 In Linux, everything is organized into a tree-like structure, starting at / (root directory).
 
 Here are some important folders you’ll use often:
